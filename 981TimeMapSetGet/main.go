@@ -12,9 +12,11 @@ func main()  {
     tm.Set("123", "low", 20)
     // tm.Set("123", "3", 30)
 
-    // fmt.Println(tm.Get("123",5) == "")
-    // fmt.Println(tm.Get("123",10) == "high")
-    fmt.Println(tm.Get("123",15))
+    fmt.Println(tm.Get("123",5) == "")
+    fmt.Println(tm.Get("123",10) == "high")
+    fmt.Println(tm.Get("123",15) == "high")
+    fmt.Println(tm.Get("123",20) == "low")
+    fmt.Println(tm.Get("123",21) == "low")
     // fmt.Println(tm.Get("123",20) == "2")
     // fmt.Println(tm.Get("123",31) == "3")
     // fmt.Println(tm.Get("123",30) == "3")
@@ -56,6 +58,7 @@ func (this *TimeMap) Get(key string, timestamp int) string {
     }
     t := this.Field[key]
 
+    // 找到第一个是的func为true的元素
     k := sort.Search(len(t), func(i int) bool {
         if t[i].Time >= timestamp {
             return true
@@ -68,9 +71,13 @@ func (this *TimeMap) Get(key string, timestamp int) string {
         return t[k-1].Val
     }
 
-    fmt.Println(t[k])
+
     if t[k].Time > timestamp {
-        return ""
+        if k == 0 {
+            return ""
+        }
+
+        return t[k-1].Val
     }
 
     return t[k].Val
