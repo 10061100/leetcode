@@ -18,8 +18,6 @@ func NewTreeNode(v int) *TreeNode {
     }
 }
 
-
-
 func midTravel(root *TreeNode) {
     if root == nil {
         return
